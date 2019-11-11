@@ -1,27 +1,18 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import player from './tone/tone';
 
-const REAL_TIME_FREQUENCY = 440;
-
-let audioContext = new AudioContext();
-
-let myOscillator = audioContext.createOscillator();
-myOscillator.frequency.value = REAL_TIME_FREQUENCY;
-
-
-myOscillator.start();
-// myOscillator.stop(audioContext.currentTime + 100); // Stop after two seconds
-console.log("hi");
-
-window.addEventListener('mousedown', e => {
-  myOscillator.connect(audioContext.destination);
-  console.log("mousedown");
-});
-window.onmouseup = (e) => {
-  myOscillator.disconnect(audioContext.destination);
-  console.log("mouseup");
-};
+// window.addEventListener('mousedown', e => {
+//   player.init();
+//   player.play("A", 4);
+//   console.log("mousedown");
+// });
+//
+// window.onmouseup = (e) => {
+//   player.stop();
+//   console.log("mouseup");
+// }
 
 function App() {
   return (

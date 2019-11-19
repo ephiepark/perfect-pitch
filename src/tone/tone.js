@@ -28,10 +28,13 @@ class TonePlayer {
     });
   }
 
-  play(note, scale) {
-    this.playing_note = note;
-    this.playing_scale = scale;
-    this.oscillators[note][scale].connect(audioContext.destination);
+  play(note, scale, playTimeMs) {
+    const self = this;
+    self.stop();
+    self.playing_note = note;
+    self.playing_scale = scale;
+    self.oscillators[note][scale].connect(audioContext.destination);
+    setTimeout(() => self.stop(), playTimeMs);
   }
 
   stop() {

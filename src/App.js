@@ -1,38 +1,26 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import player from './tone/tone';
-
-// window.addEventListener('mousedown', e => {
-//   player.init();
-//   player.play("A", 4);
-//   console.log("mousedown");
-// });
-//
-// window.onmouseup = (e) => {
-//   player.stop();
-//   console.log("mouseup");
-// }
+import PerfectPitch from './components/PerfectPitch';
+import {NOTE} from './constants/constants';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [is_init, setInit] = useState(false);
+
+  useEffect(() => {
+    if (!is_init) {
+      player.init();
+      setInit(true);
+    }
+  });
+
+  return is_init ? <PerfectPitch
+    curNote={NOTE.A}
+    curRound={0}
+    noteOptions={[NOTE.A]}
+    onNoteOptionClick={(note) => {console.log(note);}}
+  /> : null;
 }
 
 export default App;

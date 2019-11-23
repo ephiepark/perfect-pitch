@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import player from '../../tone/tone';
+import { getNoteName } from '../../constants/constants';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -30,11 +30,11 @@ function NoteOptionButtons(props) {
   const noteOptionsButtons = noteOptions.map(note =>
     <Button
       variant="contained"
-      key={note}
-      value={note}
+      key={getNoteName(note)}
+      value={getNoteName(note)}
       className={classes.button}
       onClick={(e) => onNoteOptionClick(e.currentTarget.value)}>
-      {note}
+      {getNoteName(note)}
     </Button>
   );
   return <React.Fragment>
@@ -44,14 +44,19 @@ function NoteOptionButtons(props) {
 
 function PerfectPitch(props) {
   const {
-    curNote,
-    curRound,
+    isInit,
     noteOptions,
+    onGetStarted,
     onNoteOptionClick,
   } = props;
-  useEffect(() => {
-    player.play(curNote, 4, 1000);
-  }, [curRound]);
+  const content = isInit ?
+    <NoteOptionButtons
+      noteOptions={noteOptions}
+      onNoteOptionClick={onNoteOptionClick}
+    /> :
+    <Button variant="contained" onClick={(e) => onGetStarted()}>
+      {'Get Started!'}
+    </Button>;
   return (
     <React.Fragment>
       <Grid
@@ -68,10 +73,7 @@ function PerfectPitch(props) {
         justify="center"
         alignItems="center"
       >
-        <NoteOptionButtons
-          noteOptions={noteOptions}
-          onNoteOptionClick={onNoteOptionClick}
-        />
+        {content}
       </Grid>
     </React.Fragment>
   );

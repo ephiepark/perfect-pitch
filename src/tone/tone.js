@@ -28,18 +28,20 @@ class TonePlayer {
     });
   }
 
-  play(note, scale, playTimeMs) {
+  play(note, playTimeMs) {
     const self = this;
     self.stop();
-    self.playing_note = note;
-    self.playing_scale = scale;
-    self.oscillators[note][scale].connect(audioContext.destination);
+    self.playing_note = note.note;
+    self.playing_scale = note.scale;
+    self.oscillators[note.note][note.scale].connect(audioContext.destination);
     setTimeout(() => self.stop(), playTimeMs);
   }
 
   stop() {
     if (this.playing_note !== null && this.playing_scale !== null) {
       this.oscillators[this.playing_note][this.playing_scale].disconnect(audioContext.destination);
+      this.playing_note = null;
+      this.playing_scale = null;
     }
   }
 }

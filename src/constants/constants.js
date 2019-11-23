@@ -21,3 +21,20 @@ export const HZ = {
   [NOTE.F]: [22, 44, 87, 175, 349, 698, 1397, 2794, 5588],
   [NOTE.G]: [25, 49, 98, 196, 392, 784, 1568, 3136, 6272],
 };
+
+export function getNote(note, scale) {
+  return {note, scale};
+};
+
+export function getNoteName(note) {
+  return note.note + note.scale;
+};
+
+export function getRandNote(noteOptions) {
+  const randIdx = Math.floor(Math.random() * noteOptions.length);
+  return noteOptions[randIdx];
+};
+
+export function areSameNotes(noteA, noteB) {
+  return noteA.note === noteB.note && noteA.scale === noteB.scale;
+};

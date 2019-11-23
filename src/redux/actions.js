@@ -28,8 +28,9 @@ function initTonePlayer() {
   };
 };
 
-function playCurNote() {
+function initRound() {
   return (dispatch, getState) => {
+    // TODO probably playing previous round's note
     player.play(getState().curNote, 1000);
   };
 };
@@ -41,13 +42,13 @@ export function initPerfectPitch() {
   return (dispatch, getState) => {
     dispatch(initTonePlayer());
     dispatch(initializedAction());
-    dispatch(playCurNote());
+    dispatch(initRound());
   };
 };
 
 export function selectNote(note) {
   return (dispatch, getState) => {
     dispatch(selectNoteAction(note));
-    dispatch(playCurNote());
+    dispatch(initRound());
   };
 };

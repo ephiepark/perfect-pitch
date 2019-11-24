@@ -30,7 +30,6 @@ function initTonePlayer() {
 
 function initRound() {
   return (dispatch, getState) => {
-    // TODO probably playing previous round's note
     player.play(getState().curNote, 1000);
   };
 };

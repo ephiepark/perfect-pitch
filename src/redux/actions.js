@@ -1,4 +1,5 @@
 import player from '../tone/tone';
+import { areSameNotes } from '../constants/constants';
 
 /*
  * action types
@@ -34,6 +35,35 @@ function initRound() {
   };
 };
 
+function playSelectFeedback(note) {
+  // Reference: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Tips
+  return (dispatch, getState) => {
+    const feedbackTargetDom = document.querySelector(".feedback-target");
+    const classNameStr = feedbackTargetDom.className;
+    const classNames = classNameStr.split(' ');
+    const newClassNames = classNames.filter(
+      className =>
+      className !== 'select-note-feedback-correct' && className !== 'select-note-feedback-wrong'
+    );
+    feedbackTargetDom.className = newClassNames.join(' ');
+    const animationClass = areSameNotes(getState().curNote, note) ?
+      'select-note-feedback-correct' : 'select-note-feedback-wrong';
+    console.log(animationClass, getState().curNote, note);
+    newClassNames.push(animationClass);
+    window.requestAnimationFrame(function(time) {
+      window.requestAnimationFrame(function(time) {
+        document.querySelector(".feedback-target").className = newClassNames.join(' ');
+      });
+    });
+  };
+};
+
+function finishRound(note) {
+  return (dispatch, getState) => {
+    dispatch(playSelectFeedback(note));
+  };
+};
+
 /*
  * Thunks
  */
@@ -47,7 +77,10 @@ export function initPerfectPitch() {
 
 export function selectNote(note) {
   return (dispatch, getState) => {
-    dispatch(selectNoteAction(note));
-    dispatch(initRound());
+    dispatch(finishRound(note));
+    setTimeout(() => {
+      dispatch(selectNoteAction(note));
+      dispatch(initRound());
+    }, 750); // This should match animation time in App.css for feedback
   };
 };

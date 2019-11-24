@@ -30,6 +30,12 @@ export function getNoteName(note) {
   return note.note + note.scale;
 };
 
+export function getNoteFromName(noteName) {
+  const note = noteName.substring(0, 1);
+  const scale = parseInt(noteName.substring(1), 10);
+  return getNote(note, scale);
+};
+
 export function getRandNote(noteOptions) {
   const randIdx = Math.floor(Math.random() * noteOptions.length);
   return noteOptions[randIdx];

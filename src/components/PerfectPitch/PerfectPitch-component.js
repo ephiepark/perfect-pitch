@@ -5,14 +5,11 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import { getNoteName } from '../../constants/constants';
+import { getNoteName, getNoteFromName } from '../../constants/constants';
 
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
-  },
-  input: {
-    display: 'none',
   },
 }));
 
@@ -33,7 +30,7 @@ function NoteOptionButtons(props) {
       key={getNoteName(note)}
       value={getNoteName(note)}
       className={classes.button}
-      onClick={(e) => onNoteOptionClick(e.currentTarget.value)}>
+      onClick={(e) => onNoteOptionClick(getNoteFromName(e.currentTarget.value))}>
       {getNoteName(note)}
     </Button>
   );
@@ -49,12 +46,13 @@ function PerfectPitch(props) {
     onGetStarted,
     onNoteOptionClick,
   } = props;
+  const classes = useStyles();
   const content = isInit ?
     <NoteOptionButtons
       noteOptions={noteOptions}
       onNoteOptionClick={onNoteOptionClick}
     /> :
-    <Button variant="contained" onClick={(e) => onGetStarted()}>
+    <Button variant="contained" onClick={(e) => onGetStarted()} className={classes.button}>
       {'Get Started!'}
     </Button>;
   return (

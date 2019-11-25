@@ -2,13 +2,14 @@ import {
   INITIALIZED,
   SELECT_NOTE,
 } from './actions';
-import {getNote, getRandNote, areSameNotes} from '../constants/constants';
-import {NOTE} from '../constants/constants';
+import { getNote, getRandNote, areSameNotes } from '../constants/constants';
+import { NOTE } from '../constants/constants';
+import { NOTE_OPTIONS } from '../game/noteOptions';
 
 export const initState = {
   isInit: false,
-  curNote: getNote(NOTE.A, 4),
-  noteOptions: [getNote(NOTE.A, 4), getNote(NOTE.B, 4)],
+  curNote: getRandNote(NOTE_OPTIONS[0]),
+  noteOptions: [...NOTE_OPTIONS[0]],
 };
 
 function isInit(state, action) {
@@ -38,12 +39,14 @@ function noteOptions(
   curNote,
   action,
 ) {
+  const curLevel = state.length - 2;
+  console.log(curLevel, state);
   switch (action.type) {
     case SELECT_NOTE:
       if (areSameNotes(curNote, action.note)) {
-        return [...state];
+        return [...NOTE_OPTIONS[Math.min(curLevel + 1, NOTE_OPTIONS.length - 1)]];
       } else {
-        return [...state];
+        return [...NOTE_OPTIONS[Math.max(0, curLevel - 1)]];
         // return [state.slice(0, state.length - 1)];
       }
     default:

@@ -55,12 +55,13 @@ function noteOptions(
 };
 
 export function perfectPitchApp(state, action) {
+  const noteOptions = noteOptions(state.noteOptions, state.curNote, action);
   return {
     isInit: isInit(state.isInit, action),
     curNote: curNote(
       state.curNote,
-      state.noteOptions,
+      noteOptions,
       action),
-    noteOptions: noteOptions(state.noteOptions, state.curNote, action),
+    noteOptions: noteOptions,
   };
 };

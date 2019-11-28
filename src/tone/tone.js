@@ -35,7 +35,7 @@ class TonePlayer {
     const gainNode = self.gains[note.note][note.scale];
     gainNode.gain.setValueAtTime(0, audioContext.currentTime);
     gainNode.connect(audioContext.destination);
-    gainNode.gain.setValueCurveAtTime([0, 0.7, 1.0, 1.0, 0.7, 0], audioContext.currentTime, playTimeMs / 1000);
+    gainNode.gain.setValueCurveAtTime([0.001, 0.7, 1.0, 1.0, 1.0, 0.7, 0.001], audioContext.currentTime, playTimeMs / 1000);
     setTimeout(() => self.stop(), playTimeMs);
   }
 

@@ -10,6 +10,7 @@ export const initState = {
   isInit: false,
   curNote: getRandNote(NOTE_OPTIONS[0]),
   noteOptions: [...NOTE_OPTIONS[0]],
+  score: 0,
 };
 
 function isInit(state, action) {
@@ -35,33 +36,50 @@ function curNote(
 };
 
 function noteOptions(
-  state,
+  curNoteOptions,
   curNote,
+  curScore,
   action,
 ) {
-  const curLevel = state.length - 2;
-  console.log(curLevel, state);
+  const curLevel = curNoteOptions.length - 2;
   switch (action.type) {
     case SELECT_NOTE:
       if (areSameNotes(curNote, action.note)) {
-        return [...NOTE_OPTIONS[Math.min(curLevel + 1, NOTE_OPTIONS.length - 1)]];
+        if (curScore >= 10) {
+          return {
+            score: 0,
+            noteOptions: [...NOTE_OPTIONS[Math.min(curLevel + 1, NOTE_OPTIONS.length - 1)]],
+          };
+        } else {
+          return {
+            score: curScore + 1,
+            noteOptions: curNoteOptions,
+          };
+        }
       } else {
-        return [...NOTE_OPTIONS[Math.max(0, curLevel - 1)]];
-        // return [state.slice(0, state.length - 1)];
+        return {
+          score: 0,
+          noteOptions: [...NOTE_OPTIONS[Math.max(0, curLevel - 1)]],
+        };
       }
     default:
-      return state;
+      return {
+        score: curScore,
+        noteOptions: curNoteOptions,
+      };
   }
 };
 
 export function perfectPitchApp(state, action) {
-  const noteOptions = noteOptions(state.noteOptions, state.curNote, action);
+  const newNoteOptions = noteOptions(state.noteOptions, state.curNote, state.score, action);
+  console.log(newNoteOptions);
   return {
     isInit: isInit(state.isInit, action),
     curNote: curNote(
       state.curNote,
-      noteOptions,
+      newNoteOptions.noteOptions,
       action),
-    noteOptions: noteOptions,
+    noteOptions: newNoteOptions.noteOptions,
+    score: newNoteOptions.score,
   };
 };

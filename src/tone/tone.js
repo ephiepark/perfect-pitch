@@ -4,7 +4,7 @@ let audioContext = new AudioContext();
 
 class TonePlayer {
   constructor() {
-    this.oscillators = {
+    this.gains = {
       [NOTE.A]: [],
       [NOTE.B]: [],
       [NOTE.C]: [],
@@ -21,25 +21,27 @@ class TonePlayer {
     NOTES.forEach(note => {
       for (let scale = 0; scale <= MAX_SCALE; scale++) {
         const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
         oscillator.frequency.value = HZ[note][scale];
         oscillator.start(0);
-        this.oscillators[note].push(oscillator);
+        oscillator.connect(gainNode);
+        this.gains[note].push(gainNode);
       }
     });
   }
 
   play(note, playTimeMs) {
     const self = this;
-    self.stop();
-    self.playing_note = note.note;
-    self.playing_scale = note.scale;
-    self.oscillators[note.note][note.scale].connect(audioContext.destination);
+    const gainNode = self.gains[note.note][note.scale];
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.connect(audioContext.destination);
+    gainNode.gain.setValueCurveAtTime([0, 0.7, 1.0, 1.0, 0.7, 0], audioContext.currentTime, playTimeMs / 1000);
     setTimeout(() => self.stop(), playTimeMs);
   }
 
   stop() {
     if (this.playing_note !== null && this.playing_scale !== null) {
-      this.oscillators[this.playing_note][this.playing_scale].disconnect(audioContext.destination);
+      this.gains[this.playing_note][this.playing_scale].disconnect(audioContext.destination);
       this.playing_note = null;
       this.playing_scale = null;
     }

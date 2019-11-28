@@ -48,7 +48,6 @@ function playSelectFeedback(note) {
     feedbackTargetDom.className = newClassNames.join(' ');
     const animationClass = areSameNotes(getState().curNote, note) ?
       'select-note-feedback-correct' : 'select-note-feedback-wrong';
-    console.log(animationClass, getState().curNote, note);
     newClassNames.push(animationClass);
     window.requestAnimationFrame(function(time) {
       window.requestAnimationFrame(function(time) {

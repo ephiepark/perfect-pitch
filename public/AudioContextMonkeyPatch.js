@@ -47,7 +47,7 @@ and string types for AudioPannerNode.panningModel, AudioPannerNode.distanceModel
 BiquadFilterNode.type and OscillatorNode.type.
 
 */
-console.log("asdf");
+
 (function (global, exports, perf) {
   'use strict';
 

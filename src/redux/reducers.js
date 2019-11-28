@@ -2,8 +2,7 @@ import {
   INITIALIZED,
   SELECT_NOTE,
 } from './actions';
-import { getNote, getRandNote, areSameNotes } from '../constants/constants';
-import { NOTE } from '../constants/constants';
+import { getRandNote, areSameNotes } from '../constants/constants';
 import { NOTE_OPTIONS } from '../game/noteOptions';
 
 export const initState = {
@@ -72,7 +71,6 @@ function noteOptions(
 
 export function perfectPitchApp(state, action) {
   const newNoteOptions = noteOptions(state.noteOptions, state.curNote, state.score, action);
-  console.log(newNoteOptions);
   return {
     isInit: isInit(state.isInit, action),
     curNote: curNote(

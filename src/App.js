@@ -4,7 +4,7 @@ import PerfectPitch from './components/PerfectPitch';
 import {NOTE} from './constants/constants';
 
 function App() {
-  return <div className={'App feedback-target'}>
+  return <div className={'App feedback-target full-screen'}>
     <PerfectPitch
       curNote={NOTE.A}
       curRound={0}

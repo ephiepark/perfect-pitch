@@ -62,6 +62,7 @@ function PerfectPitch(props) {
         direction="row"
         justify="center"
         alignItems="center"
+        className={'header'}
       >
         <PerfectPitchHeader/>
       </Grid>

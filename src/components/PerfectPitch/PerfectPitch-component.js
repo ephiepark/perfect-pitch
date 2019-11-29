@@ -23,7 +23,7 @@ function PerfectPitchHeader(props) {
 
 function NoteOptionButtons(props) {
   const classes = useStyles();
-  const {noteOptions, onNoteOptionClick} = props;
+  const {noteOptions, onNoteOptionClick, onReplayNoteClick} = props;
   const noteOptionsButtons = noteOptions.map(note =>
     <Button
       variant="contained"
@@ -35,7 +35,22 @@ function NoteOptionButtons(props) {
     </Button>
   );
   return <React.Fragment>
-    {noteOptionsButtons}
+    <Grid
+      container
+      direction="row"
+      justify="center"
+      alignItems="center"
+    >
+      <Button
+        variant="contained"
+        className={classes.button}
+        onClick={(e) => onReplayNoteClick()}>
+        {'Replay Note'}
+      </Button>
+    </Grid>
+    <div>
+      {noteOptionsButtons}
+    </div>
   </React.Fragment>;
 }
 
@@ -45,12 +60,14 @@ function PerfectPitch(props) {
     noteOptions,
     onGetStarted,
     onNoteOptionClick,
+    onReplayNoteClick,
   } = props;
   const classes = useStyles();
   const content = isInit ?
     <NoteOptionButtons
       noteOptions={noteOptions}
       onNoteOptionClick={onNoteOptionClick}
+      onReplayNoteClick={onReplayNoteClick}
     /> :
     <Button variant="contained" onClick={(e) => onGetStarted()} className={classes.button}>
       {'Get Started!'}

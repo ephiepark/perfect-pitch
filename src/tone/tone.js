@@ -31,19 +31,21 @@ class TonePlayer {
   }
 
   play(note, playTimeMs) {
+    this.stop();
     const self = this;
     const gainNode = self.gains[note.note][note.scale];
     this.playing_note = note.note;
     this.playing_scale = note.scale;
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
     gainNode.connect(audioContext.destination);
-    gainNode.gain.setValueCurveAtTime(Float32Array.from([0.001, 0.7, 1.0, 1.0, 1.0, 0.7, 0.001]), audioContext.currentTime, playTimeMs / 1000);
+    gainNode.gain.setValueCurveAtTime(Float32Array.from([0.0, 0.7, 1.0, 1.0, 1.0, 0.7, 0.0]), audioContext.currentTime, playTimeMs / 1000);
     setTimeout(() => self.stop(), playTimeMs);
   }
 
   stop() {
     if (this.playing_note !== null && this.playing_scale !== null) {
-      this.gains[this.playing_note][this.playing_scale].disconnect(audioContext.destination);
+      const gainNode = this.gains[this.playing_note][this.playing_scale];
+      gainNode.gain.cancelScheduledValues(0);
+      gainNode.disconnect(audioContext.destination);
       this.playing_note = null;
       this.playing_scale = null;
     }

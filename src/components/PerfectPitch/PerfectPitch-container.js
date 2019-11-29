@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { selectNote, initPerfectPitch } from '../../redux/actions';
+import { selectNote, replayNote, initPerfectPitch } from '../../redux/actions';
 import PerfectPitch from './PerfectPitch-component';
 
 const mapStateToProps = state => {
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onNoteOptionClick: (note) => {
       dispatch(selectNote(note));
+    },
+    onReplayNoteClick: () => {
+      dispatch(replayNote());
     },
   };
 };

@@ -83,3 +83,9 @@ export function selectNote(note) {
     }, 750); // This should match animation time in App.css for feedback
   };
 };
+
+export function replayNote() {
+  return (dispatch, getState) => {
+    player.play(getState().curNote, 1000);
+  }
+};
